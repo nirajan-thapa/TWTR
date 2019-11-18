@@ -1,0 +1,97 @@
+ext.versions = [
+        minSdk                  : 21,
+        targetSdk               : 29,
+        compileSdk              : 29,
+        gradle                  : '3.5.0',
+        kotlin                  : '1.3.50',
+        buildTools              : '29.0.0',
+        ktx                     : '1.0.2',
+        ktxFragment             : '1.0.0',
+        androidxAppCompatVersion: '1.1.0',
+        materialVersion         : '1.0.0',
+        rxRedux                 : '1.0.1',
+        rxJava                  : '2.2.2',
+        rxAndroid               : '2.1.0',
+        epoxyVersion            : '3.7.0',
+        dagger                  : '2.23.2',
+        constraintLayout        : '1.1.2',
+        retrofitVersion         : '2.4.0',
+        moshiVersion            : '1.6.0',
+        lifecycle               : '2.1.0',
+        glide                   : '4.9.0',
+        junit                   : '4.12',
+        testRunner              : '1.2.0',
+        assertj                 : '3.11.1',
+        espresso                : '3.2.0',
+        mockito                 : '2.15.0',
+        mockitoKotlin           : '1.5.0',
+        lifecycleCoreTesting    : '2.1.0'
+]
+
+ext.classPaths = [
+        kotlinGradlePlugin     : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+        kotlinAndroidExtensions: "org.jetbrains.kotlin:kotlin-android-extensions:${versions.kotlin}",
+        toolsBuildGradle       : "com.android.tools.build:gradle:${versions.gradle}",
+]
+
+ext {
+    kotlinDependencies = [
+            kotlin       : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
+            kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
+    ]
+
+    ktxDependencies = [
+            ktxCore    : "androidx.core:core-ktx:${versions.ktx}",
+            ktxFragment: "androidx.fragment:fragment-ktx:${versions.ktxFragment}"
+    ]
+
+    styleDependencies = [
+            androidxAppCompat: "androidx.appcompat:appcompat:${versions.androidxAppCompatVersion}",
+            material         : "com.google.android.material:material:${versions.materialVersion}",
+            epoxy            : "com.airbnb.android:epoxy:${versions.epoxyVersion}",
+            constraintLayout : "com.android.support.constraint:constraint-layout:$versions.constraintLayout",
+    ]
+
+    architectureDependencies = [
+            rxRedux             : "com.freeletics.rxredux:rxredux:${versions.rxRedux}",
+            lifecycleExtensions : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}",
+            rxJava     : "io.reactivex.rxjava2:rxjava:${versions.rxJava}",
+            rxAndroid: "io.reactivex.rxjava2:rxandroid:${versions.rxAndroid}"
+    ]
+
+    injectionDependencies = [
+            dagger               : "com.google.dagger:dagger:${versions.dagger}",
+            deaggerAndroidSupport: "com.google.dagger:dagger-android-support:${versions.dagger}"
+    ]
+
+    kaptDependencies = [
+            epoxyProcessor: "com.airbnb.android:epoxy-processor:${versions.epoxyVersion}",
+            moshiProcessor: "com.squareup.moshi:moshi-kotlin-codegen:${versions.moshiVersion}",
+            daggerCompiler        : "com.google.dagger:dagger-compiler:${versions.dagger}",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${versions.dagger}"    ]
+
+    imageDependencies = [
+            glide: "com.github.bumptech.glide:glide:${versions.glide}"
+    ]
+
+    apiDependencies = [
+            retrofit        :  "com.squareup.retrofit2:retrofit:${versions.retrofitVersion}",
+            retrofitAdapter : "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofitVersion}",
+            retrofitMoshi   : "com.squareup.retrofit2:converter-moshi:${versions.retrofitVersion}",
+            moshi           : "com.squareup.moshi:moshi:${versions.moshiVersion}",
+            moshiKotlin     : "com.squareup.moshi:moshi-kotlin:${versions.moshiVersion}"
+    ]
+
+    testingDependencies = [
+            coreTest       : "androidx.arch.core:core-testing:${versions.lifecycleCoreTesting}",
+            junit          : "junit:junit:${versions.junit}",
+            assertj        : "org.assertj:assertj-core:${versions.assertj}",
+            mockitoCore    : "org.mockito:mockito-core:${versions.mockito}",
+            mockitoPlatform: [
+                    group  : 'org.mockito',
+                    name   : 'mockito-inline',
+                    version: "${versions.mockito}"
+            ],
+            mockitoKotlin  : "com.nhaarman:mockito-kotlin-kt1.1:${versions.mockitoKotlin}"
+    ]
+}
