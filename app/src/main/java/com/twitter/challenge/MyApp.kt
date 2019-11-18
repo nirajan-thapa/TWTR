@@ -2,6 +2,7 @@ package com.twitter.challenge
 
 import android.app.Application
 import com.twitter.challenge.di.components.AppComponent
+import com.twitter.challenge.di.components.DaggerAppComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
