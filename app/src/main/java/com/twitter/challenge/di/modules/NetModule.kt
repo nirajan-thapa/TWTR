@@ -1,5 +1,6 @@
 package com.twitter.challenge.di.modules
 
+import com.twitter.challenge.api.WeatherService
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
@@ -30,8 +31,8 @@ class NetModule {
         .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
         .build()
 
-    // @Provides
-    // @Singleton
-    // fun providesRestaurantService(retrofit: Retrofit): RestaurantService =
-    //     retrofit.create(RestaurantService::class.java)
+    @Provides
+    @Singleton
+    fun providesWeatherService(retrofit: Retrofit): WeatherService =
+        retrofit.create(WeatherService::class.java)
 }

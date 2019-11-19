@@ -6,7 +6,7 @@ ext.versions = [
         kotlin                  : '1.3.50',
         buildTools              : '29.0.0',
         ktx                     : '1.0.2',
-        ktxFragment             : '1.0.0',
+        ktxFragment             : '1.1.0',
         androidxAppCompatVersion: '1.1.0',
         materialVersion         : '1.0.0',
         rxRedux                 : '1.0.1',
