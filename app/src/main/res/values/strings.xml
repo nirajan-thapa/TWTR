@@ -5,4 +5,5 @@
 
     <string name="temperature">Temperature: %1$f °C / %2$f °F</string>
     <string name="wind">Wind: %1$f meter/sec</string>
+    <string name="std_dev">Standard Deviation: %1$f</string>
 </resources>

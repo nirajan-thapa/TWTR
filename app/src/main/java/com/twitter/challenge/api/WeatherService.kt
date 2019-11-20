@@ -9,4 +9,8 @@ interface WeatherService {
 
     @GET("/{query}")
     fun getCurrentWeather(@Path("query") query: String): Single<WeatherModel>
+
+
+    @GET("/{query}")
+    fun getFutureWeather(@Path("query") query: String): Single<WeatherModel>
 }

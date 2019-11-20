@@ -10,6 +10,7 @@ import com.twitter.challenge.R
 import com.twitter.challenge.base.BaseFragment
 import com.twitter.challenge.base.simpleController
 import com.twitter.challenge.weather.views.loadingView
+import com.twitter.challenge.weather.views.textRow
 import com.twitter.challenge.weather.views.weatherRow
 
 class WeatherFragment : BaseFragment() {
@@ -26,6 +27,12 @@ class WeatherFragment : BaseFragment() {
             return@simpleController
         }
 
+        if (state.futureWeatherRequest is Loading) {
+            loadingView {
+                id("future-loading-view")
+            }
+        }
+
         state.currentWeather?.apply {
             val currTmp: Float = this.weather.temp.toFloat()
             val windSpeed = this.wind.speed
@@ -35,7 +42,22 @@ class WeatherFragment : BaseFragment() {
                 temperature(getString(R.string.temperature, currTmp, TemperatureConverter.celsiusToFahrenheit(currTmp)))
                 wind(getString(R.string.wind, windSpeed))
                 cloudVisibility(showCloud)
+                clickListener { _ ->
+                    weatherViewModel.getFutureWeather()
+                }
             }
+        }
+
+        state.standardDeviation?.apply {
+            val value = this
+            textRow {
+                id("text-row-standard")
+                title(getString(R.string.std_dev, value))
+            }
+        }
+
+        state.futureWeathers?.forEach {
+            Log.d(TAG, "$it")
         }
     }
 
@@ -61,6 +83,21 @@ class WeatherFragment : BaseFragment() {
                 Log.e(TAG, "Weather request failed", error)
             }
         )
+
+        weatherViewModel.asyncSubscribe(
+            WeatherState::futureWeatherRequest,
+            onSuccess = {
+                weatherViewModel.calculateStandardDeviation()
+                Snackbar.make(coordinatorLayout, "Future Weather request successful.", Snackbar.LENGTH_LONG).show()
+                Log.i(TAG, "Weather request successful")
+            },
+            onFail = { error ->
+                Snackbar.make(coordinatorLayout, "Future Weather request failed.", Snackbar.LENGTH_LONG).show()
+                Log.e(TAG, "Weather request failed", error)
+            }
+        )
+
+        // request current weather
         weatherViewModel.getCurrentWeather("current.json")
     }
 
