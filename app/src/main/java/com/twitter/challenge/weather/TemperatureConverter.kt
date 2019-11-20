@@ -14,7 +14,6 @@ object TemperatureConverter {
         return temperatureInCelsius * 1.8f + 32
     }
 
-    @Throws(IllegalArgumentException::class)
     fun calculateStandardDeviation(values: List<Double>): Double {
         if (values.size <= 1) {
             return 0.0
@@ -29,6 +28,6 @@ object TemperatureConverter {
         for (value in values) {
             sum += (value - mean).pow(2.0)
         }
-        return sqrt(sum / (values.size - 1))
+        return sqrt(sum / (values.size))
     }
 }
