@@ -9,9 +9,7 @@ ext.versions = [
         ktxFragment             : '1.1.0',
         androidxAppCompatVersion: '1.1.0',
         materialVersion         : '1.0.0',
-        rxRedux                 : '1.0.1',
-        rxJava                  : '2.2.2',
-        rxAndroid               : '2.1.0',
+        MvRx                    : '1.1.0',
         epoxyVersion            : '3.7.0',
         dagger                  : '2.23.2',
         constraintLayout        : '1.1.2',
@@ -53,10 +51,7 @@ ext {
     ]
 
     architectureDependencies = [
-            rxRedux             : "com.freeletics.rxredux:rxredux:${versions.rxRedux}",
-            lifecycleExtensions : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}",
-            rxJava     : "io.reactivex.rxjava2:rxjava:${versions.rxJava}",
-            rxAndroid: "io.reactivex.rxjava2:rxandroid:${versions.rxAndroid}"
+            MvRx: "com.airbnb.android:mvrx:${versions.MvRx}"
     ]
 
     injectionDependencies = [
