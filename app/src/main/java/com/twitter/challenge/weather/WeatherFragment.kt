@@ -2,68 +2,66 @@ package com.twitter.challenge.weather
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.ViewGroup
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.fragmentViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.twitter.challenge.R
-import com.twitter.challenge.models.WeatherModel
-import dagger.android.support.AndroidSupportInjection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import com.twitter.challenge.base.BaseFragment
+import com.twitter.challenge.base.simpleController
+import com.twitter.challenge.weather.views.loadingView
+import com.twitter.challenge.weather.views.weatherRow
 
 class WeatherFragment : BaseFragment() {
 
-    private val weatherViewModel: WeatherViewModel by viewModels { factory }
+    override fun getLayoutId() = R.layout.fragment_weather
 
-    private val disposable = CompositeDisposable()
+    private val weatherViewModel: WeatherViewModel by fragmentViewModel(WeatherViewModel::class)
 
-    override fun injectDependencies() = AndroidSupportInjection.inject(this)
+    override fun epoxyController() = simpleController(weatherViewModel) { state ->
+        if (state.weatherRequest is Loading) {
+            loadingView {
+                id("loading-view")
+            }
+            return@simpleController
+        }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_weather, container, false)
+        state.currentWeather?.apply {
+            val currTmp: Float = this.weather.temp.toFloat()
+            val windSpeed = this.wind.speed
+            val showCloud = this.clouds.cloudiness > 50
+            weatherRow {
+                id("current-weather")
+                temperature(getString(R.string.temperature, currTmp, TemperatureConverter.celsiusToFahrenheit(currTmp)))
+                wind(getString(R.string.wind, windSpeed))
+                cloudVisibility(showCloud)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = view.findViewById(R.id.recycler_view)
+        toolbar = view.findViewById(R.id.toolbar)
+        coordinatorLayout = view.findViewById(R.id.coordinator_layout)
+        recyclerView.setController(epoxyController)
+        toolbar.title = getString(R.string.app_name)
+
         // Subscribe to the emissions of the weather data from the view model.
-        // Update the weather info at every onNext emission.
         // In case of error, log the exception.
-        disposable.add(weatherViewModel.getCurrentWeather("current.json")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doFinally { toggleProgressBar(show = false) }
-            .subscribe(
-                {
-                    renderWeatherData(it)
-                },
-                { error ->
-                    Log.e(TAG, "Unable to get weather", error)
-                }
-            )
+        weatherViewModel.asyncSubscribe(
+            WeatherState::weatherRequest,
+            onSuccess = {
+                Snackbar.make(coordinatorLayout, "Weather request successful.", Snackbar.LENGTH_LONG).show()
+                Log.i(TAG, "Weather request successful")
+            },
+            onFail = { error ->
+                Snackbar.make(coordinatorLayout, "Weather request failed.", Snackbar.LENGTH_LONG).show()
+                Log.e(TAG, "Weather request failed", error)
+            }
         )
-    }
-
-    private fun renderWeatherData(weatherModel: WeatherModel) {
-        val currTmp: Float = weatherModel.weather.temp.toFloat()
-        temperature.text = getString(R.string.temperature, currTmp, TemperatureConverter.celsiusToFahrenheit(currTmp))
-        wind.text = weatherModel.wind.speed.toString()
-        data_container.visibility = VISIBLE
-    }
-
-    private fun toggleProgressBar(show: Boolean) {
-        if (show && !progressbar.isVisible)
-            progressbar.visibility = VISIBLE
-        else if (!show && progressbar.isVisible)
-            progressbar.visibility = GONE
-    }
-
-    override fun onStop() {
-        super.onStop()
-        // clear all the subscription
-        disposable.clear()
+        weatherViewModel.getCurrentWeather("current.json")
     }
 
     companion object {

@@ -1,17 +1,15 @@
 package com.twitter.challenge.weather
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 
 import com.twitter.challenge.R
+import com.twitter.challenge.base.BaseActivity
 
-class WeatherActivity : AppCompatActivity() {
+class WeatherActivity : BaseActivity() {
+
+    override fun getLayoutId() = R.layout.activity_weather
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_weather)
-
-        // val temperatureView = findViewById(R.id.temperature) as TextView
-        // temperatureView.text = getString(R.string.temperature, 34f, TemperatureConverter.celsiusToFahrenheit(34f))
     }
 }

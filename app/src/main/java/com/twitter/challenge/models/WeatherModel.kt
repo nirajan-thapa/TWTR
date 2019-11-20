@@ -1,5 +1,7 @@
 package com.twitter.challenge.models
 
+import com.squareup.moshi.Json
+
 data class WeatherModel(
     val coord: Coord,
     val weather: Weather,
@@ -21,7 +23,7 @@ data class Wind(
 )
 
 data class Rain(
-    val volume: Int
+    @get:Json(name = "3h") @Json(name = "3h")  val volume: Int
 )
 
 data class Coord(
