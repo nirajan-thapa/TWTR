@@ -7,19 +7,12 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import com.twitter.challenge.R
-import com.twitter.challenge.base.BaseFragment
 import com.twitter.challenge.models.WeatherModel
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_weather.data_container
-import kotlinx.android.synthetic.main.fragment_weather.progressbar
-import kotlinx.android.synthetic.main.fragment_weather.temperature
-import kotlinx.android.synthetic.main.fragment_weather.wind
 
 class WeatherFragment : BaseFragment() {
 
